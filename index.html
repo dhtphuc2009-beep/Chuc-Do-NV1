@@ -164,15 +164,7 @@
   }
 
   .el-num { font-size: 9px; font-family: 'Orbitron', monospace; position: absolute; top: 4px; left: 6px; opacity: 0.7; }
-  
-  /* Căn lề riêng cho dấu vô cực dịch lên phía trên nhiều hơn */
-  .el-inf { 
-    font-size: 16px; 
-    top: -4px; 
-    left: 5px; 
-    font-weight: bold; 
-  } 
-  
+  .el-inf { font-size: 16px; top: -1px; left: 5px; font-weight: bold; } /* Phóng to dấu vô hạn */
   .el-sym { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; line-height: 1; }
   .el-name { font-size: 7px; letter-spacing: 0.2px; opacity: 0.8; margin-top: 3px; text-align: center; padding: 0 2px; line-height: 1.1; }
 
@@ -247,7 +239,7 @@
   </div>
 
   <div class="sub-title">
-    Gửi tới các <span>anh chị</span> 🧪
+    Gửi tới các <span>anh chị 🧪
   </div>
 
   <div class="message">
@@ -270,6 +262,7 @@
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   
+  // Thiết lập canvas full màn hình và tự cập nhật khi thay đổi kích thước trình duyệt
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -280,7 +273,7 @@
   const particles = [];
   const symbols = ['H₂', 'O₂', 'NaCl', 'CO₂', 'NH₃', 'HCl', 'C', 'Fe', 'Na', 'K', '⚗', '🔬'];
 
-  for (let i = 0; i < 45; i++) {
+  for (let i = 0; i < 45; i++) { // Tăng số lượng hạt lên một chút cho hợp màn hình rộng
     particles.push({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
