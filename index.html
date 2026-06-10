@@ -72,7 +72,8 @@
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 56px;
     font-weight: 900;
-    line-height: 1.4;
+    line-height: 1.4; /* Tăng khoảng cách dòng rộng rãi để không bị vướng dấu */
+    padding-top: 15px; /* Tạo không gian phía trên tiêu đề tránh va chạm với hàng trên */
     text-align: center;
     background: linear-gradient(135deg, #00e5ff 0%, #b2ff59 40%, #ffffff 70%, #ea80fc 100%);
     -webkit-background-clip: text;
@@ -81,14 +82,6 @@
     filter: drop-shadow(0 0 25px rgba(0,229,255,0.4));
     animation: shimmer 3s ease-in-out infinite;
     letter-spacing: 1px;
-  }
-
-  /* Xử lý khoảng trống hiển thị riêng để bảo vệ dấu ngã không bị clip/cắt mất */
-  .fix-dau-nga {
-    display: inline-block;
-    padding-top: 12px;
-    margin-top: -12px;
-    line-height: 1;
   }
 
   @keyframes shimmer {
@@ -174,7 +167,7 @@
 
   .el-num { font-size: 9px; font-family: 'Orbitron', monospace; position: absolute; top: 4px; left: 6px; opacity: 0.7; }
   
-  /* Căn lề riêng cho dấu vô cực dịch lên phía trên nhiều hơn */
+  /* Đẩy dấu vô cực lên cao hẳn và căn giữa */
   .el-inf { 
     font-size: 16px; 
     top: -4px; 
@@ -243,7 +236,7 @@
 <div class="container">
   <div class="formula-tag">⚗️ H₂O + C₆H₁₂O₆ + Nỗ Lực → Thành Công ⚗️</div>
 
-  <div class="main-title">CHÚC <span class="fix-dau-nga">ĐỖ</span><br>NV1 🎓</div>
+  <div class="main-title">CHÚC ĐỖ<br>NV1 🎓</div>
 
   <div class="divider">
     <div class="atom a1"></div><div class="bond"></div>
@@ -277,3 +270,52 @@
 
 <script>
   const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const particles = [];
+  const symbols = ['H₂', 'O₂', 'NaCl', 'CO₂', 'NH₃', 'HCl', 'C', 'Fe', 'Na', 'K', '⚗', '🔬'];
+
+  for (let i = 0; i < 45; i++) {
+    particles.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      sym: symbols[Math.floor(Math.random() * symbols.length)],
+      opacity: Math.random() * 0.3 + 0.05,
+      size: Math.random() * 5 + 9,
+      hue: Math.random() > 0.5 ? '#00e5ff' : (Math.random() > 0.5 ? '#b2ff59' : '#ea80fc')
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = p.hue;
+      ctx.font = `${p.size}px monospace`;
+      ctx.fillText(p.sym, p.x, p.y);
+      ctx.restore();
+
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      if (p.x < -40) p.x = canvas.width + 40;
+      if (p.x > canvas.width + 40) p.x = -40;
+      if (p.y < -30) p.y = canvas.height + 30;
+      if (p.y > canvas.height + 30) p.y = -30;
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+</script>
+</body>
+</html>
